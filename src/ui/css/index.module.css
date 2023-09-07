@@ -9,10 +9,30 @@ body {
     --color-darkblue-background:  rgba(4, 16, 36, 0.9);
     --color-black: rgba(0,0,0, 1);
     --color-white: rgba(255,255,255,0.9);
+    --color-white-full: rgba(255,255,255,1);
     --color-red: rgba(173, 9, 9, 1);
-    --min-height: 550px;
+
+    --color-btn-aqua: rgb(39, 158, 158);
+    --color-btn-red: rgb(196, 35, 35);
+
+    --color-btn-hover-aqua: rgba(11, 97, 97, 1);
+    --color-btn-hover-red: rgba(111, 36, 36, 1);
+ 
+    --font-size-minimum: 10px;
+    --font-size-small: 12px;
+    --font-size-normal: 16px;
+    --font-size-larger: 20px;
+    --font-size-big: 26px;
+    --font-size-super-big: 34px;
+    --font-size-giant: 40px;
 
     background-color: var(--color-black);
+
+    position: relative;
+
+    --min-height: 500px;
+    height: var(--min-height);
+    min-height: 100vh;
 }
 
 @font-face {
@@ -49,6 +69,7 @@ main {
     /*justify-content: center;*/
     padding-bottom: 20px;
     color: var(--color-black);
+    margin-top: 20px;
 }
 
 .navbar {
@@ -70,29 +91,32 @@ a {
 }
 
 .btn {
-    margin: 10px;
+    margin: 5px;
     padding: 8px 5px;
-    background-color: rgba(0, 139, 139, 1);
+    background-color: var(--color-btn-aqua);
     text-align: center;
     height: 16px;
     width: 145px;
-    border-radius: 5%;
+    border-radius: 0.3rem;
     user-select: none;
     color: var(--color-white);
 }
 
 .btn:hover{
-    background-color: rgb(11, 97, 97, 1);
+    background-color: var(--color-btn-hover-aqua);
 }
 
 .btn.red {
-    background-color: rgba(165, 42, 42, 1);
+    background-color: var(--color-btn-red);
 }
 
 .btn.red:hover {
-    background-color: rgb(111, 36, 36);
+    background-color: var(--color-btn-hover-red);
 }
 
+.btn.full {
+    width: calc(100% - 40px);
+}
 
 a:hover {
     color: green;
@@ -102,4 +126,68 @@ a:hover {
 .container {
     display: flex;
     justify-content: space-between;
+}
+
+.inputContainer {
+    position: relative;
+    width: 100%;
+}
+
+label {
+    position: absolute;
+    background: var(--color-white-full);
+    padding-left: 10px;
+    padding-right: 10px;
+    left: 20px;
+    top: 2px;
+    font-size: var(--font-size-small);
+    border-radius: 2px;
+}
+
+input.field {
+    background: var(--color-white);
+    width: calc(100% - 40px);
+    height: 35px;
+    font-weight: 300;
+    font-size: var(--font-size-normal);
+    border: 1px solid var(--color-darkblue-background);
+    border-radius: 0.3rem;
+    margin: 10px;
+}
+
+.Back {
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    color: var(--color-black);
+    border: 1px solid var(--color-btn-aqua);
+    border-radius: 0.3rem;
+    width: 60px;
+    padding-left: 10px;
+}
+
+.Back:hover{
+    color: var(--color-white);
+    background-color: var(--color-btn-hover-aqua);
+}
+
+.card {
+    margin: 5px;
+    background: var(--color-white);
+    width: calc(100% - 40px);
+    font-weight: 300;
+    font-size: var(--font-size-normal);
+    border: 1px solid var(--color-darkblue-background);
+    border-radius: 0.3rem;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.card:hover{
+    background-color: var(--color-darkblue-background);
+    color: var(--color-white);
 }

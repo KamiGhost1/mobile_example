@@ -1,4 +1,5 @@
 import {initApp} from './ui/index'
+import { LocalStorage } from './ui/Utils'
 
 const androidRegex = /android/
 const iosRegex = /ios/
@@ -25,3 +26,4 @@ function getUrlVars() {
 }
 
 global.getUrlVars = getUrlVars
+global.LocalStorage = LocalStorage 

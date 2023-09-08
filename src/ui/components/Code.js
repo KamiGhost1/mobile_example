@@ -8,14 +8,56 @@ import Back from '../elements/Back';
 
 export default function Code(props) {
 
-    const [code, setCode] = useState()
-    const [isValue, setValue] = useState('')
+    const [code, setCode] = useState('')
+    const [isCodeList, setCodeList] = useState([])
+    const [isCard, setCard] = useState([])
 
     const handle_change = (e)=>{
         setCode(e.target.value)
-        setValue(e.target.value)
     }
 
+    const renderCode = (codeArray)=>{
+
+        let output = []
+        for(let i in codeArray){
+            output.push(
+            
+            <div key={i} className={styles.card} onClick={e=>{
+                console.log(e.target.innerText)
+                setCode(e.target.innerText)
+            }}>
+                {codeArray[i].code}
+            </div>
+            
+            )
+        }
+        setCard(output)
+    }
+
+    const addCode = (code)=>{
+        let codes = isCodeList
+
+        codes.push({"code":code})
+        setCodeList(codes)
+        LocalStorage.SetItem("Codes", codes)
+
+        renderCode(codes)
+
+    }
+    
+    useEffect(()=>{
+        let codeArray = LocalStorage.GetItem("Codes")
+        if(codeArray === null || codeArray.lenght === 0){
+            codeArray = []
+            codeArray.push({
+                "code": "alert('hello')"
+            })
+
+            LocalStorage.SetItem("Codes", codeArray)
+        }
+        setCodeList(codeArray)
+        renderCode(codeArray)
+    }, [])
 
 
     return (
@@ -24,7 +66,7 @@ export default function Code(props) {
             <Back onClick={()=>{props.setCode(false)}}/>
             <div className={styles.content}>
 
-                <Input type="text" placeholder="code" className={styles.field} onChange={handle_change} value={isValue}/>
+                <Input type="text" placeholder="code" className={styles.field} onChange={handle_change} value={code}/>
                 <Button text="Execute" className={styles.full} onClick={()=>{
                     try{
                         eval(code)
@@ -34,16 +76,17 @@ export default function Code(props) {
                 }}/>
                 <Button text="Clear" className={styles.full + " " + styles.red} onClick={()=>{
                     setCode('')
-                    setValue('')
+                }}/>
+                <Button text="Add" className={styles.full} onClick={()=>{
+                    addCode(code)
+
                 }}/>
 
-                <div className={styles.card} onClick={e=>{
-                    console.log(e.target.innerText)
-                    setValue(e.target.innerText)
-                    setCode(e.target.innerText)
-                }}>
-                    alert('hello')
-                </div>
+                <Button text="Delete" className={styles.full + " " + styles.red} onClick={()=>{
+                    //TODO удалите введенный код из инпута
+                }}/>
+
+                {isCard}
             </div>
         </div>
     )

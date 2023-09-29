@@ -8,7 +8,9 @@
         "start": "webpack --watch",
         "make": "NODE_ENV=production webpack",
         "server start": "pm2 start server.js --name test-mobile",
-        "server stop": "pm2 stop test-mobile"
+        "server stop": "pm2 stop test-mobile",
+        "add":"npx cap add android",
+        "copy":"npx cap copy android"
     },
     "author": "SUAI",
     "license": "MIT",

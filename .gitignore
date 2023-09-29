@@ -2,3 +2,9 @@ package-lock*
 node_module*
 .DS_Store
 dist*
+
+
+
+android/gradle/*
+android/capacitor.settings*
+android/gradlew*

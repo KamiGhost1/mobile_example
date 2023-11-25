@@ -1,8 +1,9 @@
 import {initApp} from './ui/index'
 import { LocalStorage } from './ui/Utils'
 
-const androidRegex = /android/
+const androidRegex = /Android/
 const iosRegex = /ios/
+const linuxRegex = /Linux/
 
 async function setupUI() {
     initApp()
@@ -25,5 +26,14 @@ function getUrlVars() {
     return params
 }
 
+const checkDevice = ()=>{
+    if (androidRegex.test(navigator.platform) || iosRegex.test(navigator.platform) || linuxRegex.test(navigator.platform)){
+        return true
+    }
+
+    return false
+}
+
+global.checkDevice = checkDevice
 global.getUrlVars = getUrlVars
 global.LocalStorage = LocalStorage 

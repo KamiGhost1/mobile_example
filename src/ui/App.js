@@ -6,55 +6,106 @@ import { LocalStorage } from './Utils'
 import { ACCOUNT } from '../Names'
 import {Crypto} from '../crypto'
 import {AccountClass} from "../Account"
+import Password from './components/Password'
+import { NativeBiometric } from "capacitor-native-biometric";
+import Chat from './components/Chat'
+
 
 export default function App(props) {
 
     const [isCode, setCode] = useState(false)
     const [isAccountPage, setAccountPage] = useState(false)
-
     const [Account, setAccount] = useState(false)
+    const [isLogin, setLogin] = useState(false)
+    const [isNewAccount, setNewAccount] = useState(false)
+    const [isBioAvailable, setBioAvailable] = useState(false)
+    const [isChat, setChat] = useState(false)
 
-
-    global.getAccount = ()=>{
-        return Account
-    };
-
-    global.sha = ()=>{
-        let e = CryptoLib.encrypt("hello world", "1234")
-        let d = CryptoLib.decrypt(e, "1234")
-        console.log({e, d});
-    }
+    const [isTimer, setTimer] = useState(null)
 
     let crypto = new Crypto()
 
+    const BioCheck = async ()=>{
+        if(checkDevice()){
+            const result = await NativeBiometric.isAvailable();
+            if(!result.isAvailable) 
+                return false;
+            return true
+        }else{
+            return false
+        }
+    }
 
     global.CryptoLib = crypto
 
     useEffect(()=>{
         let _account = LocalStorage.GetItem(ACCOUNT)
-        try{
-            _account = JSON.parse(crypto.decrypt(_account, "1234"))
-            let _pk = _account.privateKey
-            _account = new AccountClass(_account.name, _account.group)
-
-            _account.privateKey = _pk
-            _account.generatePublicKey()
-            setAccount(_account)
-        }catch (e){
-            console.warn(e);
+        if(_account === null){
+            setNewAccount(true)
         }
+        BioCheck().then(result=>{setBioAvailable(result); console.log(result)})
+        // console.log(isBioAvailable);
     },[])
 
-    if(isAccountPage){
-        return <AccountPage setAccountPage ={setAccountPage} Account={Account} setAccount={setAccount}/>
+    const saveBio = async (password)=>{
+        await NativeBiometric.setCredentials({
+            username: "username",
+            password: password,
+            server: "localhost",
+          }).then();
+        
+        return true
+        
     }
+
+    const verifyBio = async ()=>{
+        const verified = await NativeBiometric.verifyIdentity({
+            reason: "For easy log in",
+            title: "Log in",
+            subtitle: "Maybe add subtitle here?",
+            description: "Maybe a description too?",
+          })
+            .then(() => true)
+            .catch(() => false);
+
+        return verified
+    }
+
+    const getBio = async()=>{
+        const credentials = await NativeBiometric.getCredentials({
+            server: "localhost",
+          });
+        return credentials
+    }
+
+
+    
+
+   
 
     if(isCode){
         return <Code setCode={setCode}/>
     }
+
+    if(isChat){
+        return <Chat Account={Account} setChat={setChat} isTimer={isTimer} setTimer={setTimer}/>
+    }
+
+    if(isAccountPage || isNewAccount){
+        return <AccountPage setAccountPage ={setAccountPage} Account={Account} setAccount={setAccount} setNewAccount={setNewAccount} isBioAvailable={isBioAvailable} saveBio={saveBio}/>
+    }
     
-    return <MainPage 
+    if(isLogin){
+        return <MainPage 
         setCode={setCode}
         setAccountPage={setAccountPage}
-    />
+        Account={Account}
+        setChat={setChat}
+        />
+        
+    }
+
+    
+
+    return <Password setAccount={setAccount} setLogin={setLogin} isBioAvailable={isBioAvailable} verifyBio={verifyBio} getBio={getBio}/>
 }

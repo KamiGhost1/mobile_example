@@ -54,15 +54,19 @@ let Crypto = function(){
         let _localHash = this.sha256(msg)
 
         if(hash !== _localHash){
-            throw new Error("msg now equal hash")
+            throw new Error("msg not equal hash")
         }
         let keys = ec.keyFromPrivate(privateKey)
 
         let signature = keys.sign(hash);
 
-        let derSign = signature.toDER();
-
+        let derSign = signature.toDER('hex');
         return derSign
+    }
+
+    this.ECDSA_verify = (hash, publicKey, sign)=>{
+        let key = ec.keyFromPublic(publicKey, 'hex')
+        return key.verify(hash, sign)
     }
 
 }

@@ -2,7 +2,7 @@ import {CapacitorConfig} from '@capacitor/cli';
 
 const config: CapacitorConfig = {
     appId: 'com.suai.pwa',
-    appName: 'test mobile app',
+    appName: 'Burlin Roman app',
     webDir: 'dist',
     bundledWebRuntime: false,
     backgroundColor: '#282D46',

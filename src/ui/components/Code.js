@@ -44,6 +44,21 @@ export default function Code(props) {
         renderCode(codes)
 
     }
+
+    const deleteCode = ()=>{
+        let codes = isCodeList
+        let arrCodes = []
+        
+        for(let i = 0; i < codes.length; i++){
+            if(codes[i].code != code){
+                arrCodes.push(codes[i])
+            }
+        }
+        
+        setCodeList(arrCodes)
+        LocalStorage.SetItem("Codes", arrCodes)
+        renderCode(arrCodes)
+    }
     
     useEffect(()=>{
         let codeArray = LocalStorage.GetItem("Codes")
@@ -84,6 +99,7 @@ export default function Code(props) {
 
                 <Button text="Delete" className={styles.full + " " + styles.red} onClick={()=>{
                     //TODO удалите введенный код из инпута
+                    deleteCode()
                 }}/>
 
                 {isCard}

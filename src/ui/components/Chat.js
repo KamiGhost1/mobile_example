@@ -25,7 +25,7 @@ export default function Chat(props) {
     }
 
     const crypto = new Crypto()
-    global.CCrypto = crypto
+    
     let time = 500
     let timer 
     useEffect(()=>{

@@ -210,6 +210,7 @@ input.field {
     color: var(--color-black);
     font-size: var(--font-size-normal);
     padding-left: 10px;
+    width: 100%;
 }
 
 .Space .name {
@@ -224,4 +225,8 @@ input.field {
     display: flex;
     justify-content: left;
     font-size: var(--font-size-small);
+}
+
+.Incorrect {
+    color: var(--color-red);
 }

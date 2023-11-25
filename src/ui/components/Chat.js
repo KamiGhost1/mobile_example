@@ -13,8 +13,14 @@ export default function Chat(props) {
 
     const [isMsg, setMsg] = useState([])
     const [isSendMsg, setSendMsg] = useState('')
+    const [isCorrect, setCorrect] = useState(true)
 
     const handle_change_msg = (e)=>{
+        if(e.target.value.length === 0 || e.target.value.length > 50 ){
+            setCorrect(false)
+        }else{
+            setCorrect(true)
+        }
         setSendMsg(e.target.value)
     }
 
@@ -64,7 +70,7 @@ export default function Chat(props) {
     const send = ()=>{
         let Account = props.Account
         
-        if(isSendMsg.length > 0){
+        if(isSendMsg.length > 0 && isSendMsg.length <= 50){
             const hash = crypto.sha256(isSendMsg)
             const sign = crypto.ECDSA_sign(isSendMsg, Account.privateKey, hash)
             const publicKey = crypto.getPublicKey(Account.privateKey)
@@ -92,9 +98,9 @@ export default function Chat(props) {
             }}/>
             <div className={styles.content}>
                 <Space content={isMsg}/>
-                <Input placeholder="Message" className={styles.field} value={isSendMsg} onChange={handle_change_msg}/>
+                <Input placeholder="Message" className={styles.field + ' ' + (isCorrect ? '' : styles.Incorrect) } value={isSendMsg} onChange={handle_change_msg}/>
                 <Button  text="send" className={styles.full} onClick={()=>{send()}}/>
-            </div>
+            </div> 
         </div>
     )
 }

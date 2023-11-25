@@ -9,6 +9,7 @@ import {AccountClass} from "../Account"
 import Password from './components/Password'
 import { NativeBiometric } from "capacitor-native-biometric";
 import Chat from './components/Chat'
+import Setting from './components/Setting'
 
 
 export default function App(props) {
@@ -20,6 +21,7 @@ export default function App(props) {
     const [isNewAccount, setNewAccount] = useState(false)
     const [isBioAvailable, setBioAvailable] = useState(false)
     const [isChat, setChat] = useState(false)
+    const [isSettings, setSettings] = useState(false)
 
     const [isTimer, setTimer] = useState(null)
 
@@ -79,8 +81,9 @@ export default function App(props) {
     }
 
 
-    
-
+    if(isSettings){
+        return <Setting setSettings={setSettings}/>
+    }
    
 
     if(isCode){
@@ -94,13 +97,14 @@ export default function App(props) {
     if(isAccountPage || isNewAccount){
         return <AccountPage setAccountPage ={setAccountPage} Account={Account} setAccount={setAccount} setNewAccount={setNewAccount} isBioAvailable={isBioAvailable} saveBio={saveBio}/>
     }
-    
+
     if(isLogin){
         return <MainPage 
         setCode={setCode}
         setAccountPage={setAccountPage}
         Account={Account}
         setChat={setChat}
+        setSettings={setSettings}
         />
         
     }

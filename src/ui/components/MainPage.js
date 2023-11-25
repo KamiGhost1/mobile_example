@@ -60,7 +60,9 @@ export default function MainPage(props) {
                 <Button text="Chat" className={styles.full} onClick={()=>{props.setChat(true)}}/>
                 <Button text="Code" className={styles.full} onClick={()=>{props.setCode(true)}}/>
                 <Button text="Test Android" className={styles.full} onClick={()=>{androidTest()}}/>
-                <Button text="Settings" className={styles.full} onClick={()=>{}}/>
+                <Button text="Settings" className={styles.full} onClick={()=>{
+                    props.setSettings(true)
+                }}/>
 
 
             </div>

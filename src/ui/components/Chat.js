@@ -43,7 +43,7 @@ export default function Chat(props) {
         for(let msg of msgs){
             array.push(
                 <div key={i} className={styles.msg}>
-                    <div className={styles.name}>
+                    <div className={ getName() === msg.from ? styles.self : styles.name}>
                         {msg.from}
                     </div>
                     <div className={styles.text}>
@@ -57,26 +57,30 @@ export default function Chat(props) {
         setMsg(array)
     }
 
+    const getName = ()=>{
+        return props.Account.name + ' ' + props.Account.group
+    }
 
     const send = ()=>{
         let Account = props.Account
         
-        const hash = crypto.sha256(isSendMsg)
-        const sign = crypto.ECDSA_sign(isSendMsg, Account.privateKey, hash)
-        const publicKey = crypto.getPublicKey(Account.privateKey)
-
-        const msg = {
-            from:Account.name+' '+Account.group,
-            text: isSendMsg,
-            sign: sign,
-            publicKey: publicKey
+        if(isSendMsg.length > 0){
+            const hash = crypto.sha256(isSendMsg)
+            const sign = crypto.ECDSA_sign(isSendMsg, Account.privateKey, hash)
+            const publicKey = crypto.getPublicKey(Account.privateKey)
+    
+            const msg = {
+                from:getName(),
+                text: isSendMsg,
+                sign: sign,
+                publicKey: publicKey
+            }
+    
+            // console.log(msg);
+    
+            apiController.postMsg(msg)
+            setSendMsg('')
         }
-
-        // console.log(msg);
-
-        apiController.postMsg(msg)
-        setSendMsg('')
-        
     }
     return (
         <div className={styles.main}>

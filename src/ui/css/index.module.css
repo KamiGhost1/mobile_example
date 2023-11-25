@@ -209,11 +209,19 @@ input.field {
     justify-content: left;
     color: var(--color-black);
     font-size: var(--font-size-normal);
+    padding-left: 10px;
 }
 
 .Space .name {
     display: flex;
     justify-content: left;
     color: var(--color-red);
+    font-size: var(--font-size-small);
+}
+
+.Space .self {
+    color: var(--color-btn-aqua);
+    display: flex;
+    justify-content: left;
     font-size: var(--font-size-small);
 }

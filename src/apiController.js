@@ -1,17 +1,7 @@
 
-const ip = "http://109.107.171.36:8088"
+let ip = "http://109.107.171.36:8088"
 
 const apiController = {
-    getRegister: async ()=>{
-        // return await getRequest("http://109.107.171.36:8088/register")
-        return await getRequest(`${ip}/register`)
-
-    },
-    postRegistration : async (hash, sign, publicKey, msg)=>{
-        // return await postRequest("http://109.107.171.36:8088/register", {hash, sign, publicKey, challenge:msg})
-        return await postRequest(`${ip}/register`, {hash, sign, publicKey, challenge:msg})
-    },
-
     getMsg: async ()=>{
         return await getRequest(`${ip}/msg`)
     },
@@ -36,6 +26,14 @@ const getRequest = (api)=>{
         })
     })
     
+}
+
+const setIP = (newIP)=>{
+    ip = newIP
+}
+
+const getIP = ()=>{
+    return ip
 }
 
 const postRequest = (api, body)=>{
@@ -67,5 +65,7 @@ const postRequest = (api, body)=>{
 
 
 export {
-    apiController
+    apiController,
+    setIP,
+    getIP
 }
